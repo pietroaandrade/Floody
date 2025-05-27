@@ -1,4 +1,4 @@
-// esp32_mqtt_bridge.ino
+// esp32 mqtt bridge
 
 #include <WiFi.h>
 #include <PubSubClient.h>
@@ -7,8 +7,8 @@
 #define RXD2 16 
 #define TXD2 17 
 
-const char* ssid = "Casa Brandalise 5G";          
-const char* password = "Lfa001181";  
+const char* ssid = "Wokwi-GUEST";          
+const char* password = "";  
 const char* mqtt_server = "test.mosquitto.org";
 const char* sensor_id = "lamp_post_001";
 
@@ -85,3 +85,32 @@ void readAndSendSensorData() {
 
 
 //MQTT TOPIC: flood/city/waterlevel --> Filtrar por ID do sensor
+ 
+//diagram.json
+{
+  "version": 1,
+  "author": "Pietro",
+  "editor": "wokwi",
+  "parts": [
+    {
+      "type": "board-esp32-devkit-c-v4",
+      "id": "esp",
+      "top": 0,
+      "left": 0,
+      "attrs": {}
+    }
+  ],
+  "connections": [
+    [ "esp:TX", "$serialMonitor:RX", "", [] ],
+    [ "esp:RX", "$serialMonitor:TX", "", [] ],
+    [ "uart:TX", "esp:RX2" ]
+  ],
+  "services": {
+    "mqtt": {
+      "broker": "test.mosquitto.org",
+      "port": 1883
+    }
+  },
+  "dependencies": {}
+}
+
