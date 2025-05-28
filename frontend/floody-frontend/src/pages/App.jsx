@@ -1,55 +1,21 @@
-import {MapContainer, TileLayer, Marker, Popup} from "react-leaflet"
-import "leaflet/dist/leaflet.css";
-import { Icon } from "leaflet";
-import markerIcon from "./assets/marker-icon.svg";
+//Components
+import Map from "../components/Map/Map"
+import Dashboard from "../components/Dashboard/Dashboard"
+import Navbar from "../components/Navbar/Navbar"
 
-
-
+//Styles
 import "./App.css" 
 
+
 export default function App() {
-  const markers = [
-    {
-      geocode:[-23.5644, -46.6499],
-      popup: "Hello 1"
-    },
-    {
-      geocode:[-23.5542, -46.6267],
-      popup: "Hello 2"
-    },
-    {
-      geocode:[-23.5711, -46.6622],
-      popup: "Hello 3"
-    },
-  ]
-  const customIcon = new Icon(
-    {
-      iconUrl: markerIcon,
-      iconSize: [60,60]
-    }
-)
+  
 
   return (
-    <>
-      
-      <MapContainer center = {[-23.559831106, -46.655830718]} zoom = {18}>
-        <TileLayer 
-
-          attribution ='&copy; <a href="https://www.openstreetmap.org/#map=2/-37.2/129.6">Open Street Map</a> contributors'
-          url = "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
-        
-        />
-        {markers.map(marker => (
-          <Marker position={marker.geocode} icon={customIcon} >
-            <Popup>
-              {marker.popup}
-            </Popup>
-          </Marker>
-        ))}
-
-
-      </MapContainer>
-    </>
+    <main className="grid gap-4 p-4 grid-columns-[220px]">
+      <Navbar />
+      <Dashboard />
+     
+    </main>
   )
 }
 
