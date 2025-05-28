@@ -16,7 +16,7 @@ export const CommandMenu = ({ open, setOpen }) => {
 
     document.addEventListener('keydown', down)
     return () => document.removeEventListener('keydown', down)
-  }, [])
+  }, [setOpen])
 
   return (
     <Command.Dialog 

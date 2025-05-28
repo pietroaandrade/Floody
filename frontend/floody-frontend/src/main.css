@@ -1,9 +1,5 @@
 @import "tailwindcss";
 
-* {
-    
-    box-sizing: border-box;
-}
 
 html, body {
     overflow-x: hidden;
@@ -18,5 +14,7 @@ html, body {
 #root {
     height: 100vh;
 }
-
+main {
+    display: flex;
+}
 
