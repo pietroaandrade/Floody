@@ -11,7 +11,7 @@ export default function App() {
   
 
   return (
-    <main className="grid gap-4 p-4 grid-columns-[220px]">
+    <main className="grid gap-4 p-4 grid-columns-2-[220px,_1fr]">
       <Navbar />
       <Dashboard />
      
