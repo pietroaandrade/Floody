@@ -9,6 +9,7 @@ import { useState, useEffect, useRef } from "react";
 export default function Map() {
   const [isExpanded, setIsExpanded] = useState(false);
   const mapRef = useRef(null);
+  const containerRef = useRef(null);
 
   const markers = [
     {
@@ -35,13 +36,29 @@ export default function Map() {
     if (mapRef.current) {
       setTimeout(() => {
         mapRef.current.invalidateSize();
-      }, 300); // Wait for transition to complete
+      }, 300);
     }
+  }, [isExpanded]);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (isExpanded && containerRef.current && !containerRef.current.contains(event.target)) {
+        setIsExpanded(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
   }, [isExpanded]);
 
   return (
     <div className="p-8 relative">
-      <div style={{ height: isExpanded ? '80vh' : '50vh', transition: 'height 0.3s ease' }}>
+      <div 
+        ref={containerRef}
+        style={{ height: isExpanded ? '80vh' : '50vh', transition: 'height 0.3s ease' }}
+      >
         <MapContainer 
           center = {[-23.559831106, -46.655830718]} 
           zoom = {13} 

@@ -4,15 +4,26 @@ export default function Cards(){
     
     return(
         <>
-            <Card />
-            <Card />
-            <Card />
+            <Card 
+                props= "hello"
+            />
+            <Card
+                props= "hi"
+            />
+            <Card 
+                props= "how r u"
+            />
         </>
     )
 }
 
-const Card = ({ }) => {
+const Card = ({props}) => {
     return(
-        <div className="p-4 bg-black col-span-4"></div>
+        <div className="m-4 p-4 col-span-4 rounded border border-stone-300">
+            <div className="flex mb-8 items-start justify-between">
+
+            </div>
+
+        </div>
     )
 }

@@ -8,9 +8,8 @@ export default function Dashboard (){
     return(
         <div className="bg-white rounded-lg pb-4 shadow h-[220vh] min-w-[145vh]">
             <TopBar />
-            <Grid />
             <Map />
-            
+            <Grid />
         </div>   
     
 )}

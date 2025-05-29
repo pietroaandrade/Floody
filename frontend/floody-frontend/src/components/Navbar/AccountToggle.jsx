@@ -13,8 +13,8 @@ export default function AccountToggle(){
                     shadow"
                 />
                 <div className="text-start">
-                    <span className="text-sm font-bold block">José Alves</span>
-                    <span className="text-xs block text-stone-500">josé@alves.dev</span>
+                    <span className="text-sm font-bold block">Pietro Andrade</span>
+                    <span className="text-xs block text-stone-500">pietroandrade@front.dev</span>
                 </div>
 
                 <FiChevronDown className="absolute right-2 top-1/2
