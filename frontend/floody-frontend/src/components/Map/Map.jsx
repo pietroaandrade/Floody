@@ -27,9 +27,9 @@ export default function Map() {
 )
 
   return (
-    <>
+    <div className="p-8">
       
-      <MapContainer center = {[-23.559831106, -46.655830718]} zoom = {18}>
+      <MapContainer center = {[-23.559831106, -46.655830718]} zoom = {13} className="rounded max-h-[60vh]">
         <TileLayer 
 
           attribution ='&copy; <a href="https://www.openstreetmap.org/#map=2/-37.2/129.6">Open Street Map</a> contributors'
@@ -46,6 +46,6 @@ export default function Map() {
 
 
       </MapContainer>
-    </>
+    </div>
   )
 }
