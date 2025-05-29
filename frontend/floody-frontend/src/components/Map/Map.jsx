@@ -6,12 +6,12 @@ import { SlFrame } from "react-icons/sl";
 import "./Map.css"
 import { useState, useEffect, useRef } from "react";
 
-export default function Map() {
+export default function Map({ onSensorsUpdate }) {
   const [isExpanded, setIsExpanded] = useState(false);
   const mapRef = useRef(null);
   const containerRef = useRef(null);
 
-  const markers = [
+  const sensors = [
     {
       geocode:[-23.5644, -46.6499],
       popup: "Hello 1"
@@ -25,6 +25,14 @@ export default function Map() {
       popup: "Hello 3"
     },
   ]
+
+  useEffect(() => {
+    // Notify parent component about the number of sensors
+    if (onSensorsUpdate) {
+      onSensorsUpdate(sensors.length);
+    }
+  }, [sensors.length, onSensorsUpdate]);
+
   const customIcon = new Icon(
     {
       iconUrl: markerIcon,
@@ -71,10 +79,10 @@ export default function Map() {
           <TileLayer 
             url = "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
           />
-          {markers.map(marker => (
-            <Marker position={marker.geocode} icon={customIcon} >
+          {sensors.map(sensor => (
+            <Marker position={sensor.geocode} icon={customIcon} >
               <Popup>
-                {marker.popup}
+                {sensor.popup}
               </Popup>
             </Marker>
           ))}
