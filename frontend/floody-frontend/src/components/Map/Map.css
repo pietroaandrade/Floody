@@ -1,4 +1,39 @@
-
 .leaflet-container {
-    height: 50vh;
+    position: relative;
+    z-index: 0;
+}
+
+.leaflet-popup,
+.leaflet-control {
+    z-index: 1;
+}
+
+/* Hide zoom controls */
+.leaflet-control-zoom {
+    display: none !important;
+}
+
+.leaflet-control-container .leaflet-control-zoom {
+    display: none !important;
+}
+
+/* Custom frame control styles */
+.custom-frame-control {
+    margin-bottom: 10px !important;
+}
+
+.custom-frame-control a {
+    width: 30px !important;
+    height: 30px !important;
+    line-height: 30px !important;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    background: none !important;
+    border: none !important;
+}
+
+.custom-frame-control a:hover {
+    background: none !important;
+    color: #4b5563 !important;
 }
