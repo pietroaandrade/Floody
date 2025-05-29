@@ -1,4 +1,5 @@
 import React from "react";
+import {FiCalendar} from "react-icons/fi"
 
 export default function TopBar(){
     const date = new Date();
@@ -9,6 +10,24 @@ export default function TopBar(){
     const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
     let month = months[date.getMonth()];
 
+    function getSeason(date) {
+        const month = date.getMonth();
+      
+        if (month >= 2 && month <= 4) { // March, April, May
+          return "Spring";
+        } else if (month >= 5 && month <= 7) { // June, July, August
+          return "Summer";
+        } else if (month >= 8 && month <= 10) { // September, October, November
+          return "Autumn";
+        } else { // December, January, February
+          return "Winter";
+        }
+      }
+      
+      const currentDate = new Date();
+      const brazilSeason = getSeason(currentDate);
+      
+
     return(
         <div className="border-b px-4 mb-4 mt-2 pb-4
         border-stone-200">
@@ -17,6 +36,12 @@ export default function TopBar(){
                     <span className=" text-sm font-bold block">Welcome, Pietro</span>
                     <span className="text-xs block text-stone-500">{weekday}, {month} {day}, {year} </span>
                 </div>
+                <button className=" flex text-sm items-center gap-2 bg-stone-100 transition-colors
+                hover:text-violet-700 px-3 py-1.5 rounded">
+                    <FiCalendar />
+                    <span>{brazilSeason}</span>
+
+                </button>
             </div>
             
             
