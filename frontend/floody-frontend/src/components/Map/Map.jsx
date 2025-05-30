@@ -1,44 +1,94 @@
 import {MapContainer, TileLayer, Marker, Popup} from "react-leaflet"
 import "leaflet/dist/leaflet.css";
 import { Icon } from "leaflet";
-import markerIcon from "./assets/marker-icon.svg";
+import greenSensor from "./assets/green-sensor.svg";
+import yellowSensor from "./assets/yellow-sensor.svg";
+import redSensor from "./assets/red-sensor.svg";
 import { SlFrame } from "react-icons/sl";
 import "./Map.css"
 import { useState, useEffect, useRef } from "react";
+import { getSensorData } from "./RiskFunctions";
+
+export const sensors = [
+  {
+    geocode:[-23.5163, -46.6235],
+    
+  },
+  {
+    geocode:[-23.5400, -46.5700 ],
+    
+  },
+  {
+    geocode:[-23.516944, -46.660278],
+    
+  },
+  {
+    geocode:[-23.5280, -46.3420],
+    
+  },
+  {
+    geocode:[-23.6700, -46.5869],
+    
+  },
+  {
+    geocode:[-23.6570, -46.5850],
+    
+  },
+  {
+    geocode:[-23.5530, -46.5650],
+    
+  },
+  {
+    geocode:[-23.5330, -46.6320],
+    
+  },
+  {
+    geocode:[-23.5050, -46.6050],
+    
+  },
+  {
+    geocode:[-23.5323, -46.6379],
+    
+  },
+  
+  
+  
+];
 
 export default function Map({ onSensorsUpdate }) {
   const [isExpanded, setIsExpanded] = useState(false);
+  const [sensorData, setSensorData] = useState([]);
   const mapRef = useRef(null);
   const containerRef = useRef(null);
 
-  const sensors = [
-    {
-      geocode:[-23.5644, -46.6499],
-      popup: "Hello 1"
-    },
-    {
-      geocode:[-23.5542, -46.6267],
-      popup: "Hello 2"
-    },
-    {
-      geocode:[-23.5711, -46.6622],
-      popup: "Hello 3"
-    },
-  ]
+  useEffect(() => {
+    
+    const updateSensorData = () => {
+      setSensorData(getSensorData());
+    };
+    
+    updateSensorData(); // Initial update
+    const interval = setInterval(updateSensorData, 60000);
+    
+    return () => clearInterval(interval);
+  }, []);
 
   useEffect(() => {
-    // Notify parent component about the number of sensors
     if (onSensorsUpdate) {
       onSensorsUpdate(sensors.length);
     }
   }, [sensors.length, onSensorsUpdate]);
 
-  const customIcon = new Icon(
-    {
-      iconUrl: markerIcon,
-      iconSize: [60,60]
-    }
-  )
+  const getIcon = (riskColor) => {
+    const iconUrl = riskColor === 'green' ? greenSensor : 
+                   riskColor === 'yellow' ? yellowSensor : 
+                   redSensor;
+    
+    return new Icon({
+      iconUrl: iconUrl,
+      iconSize: [60, 60]
+    });
+  };
 
   useEffect(() => {
     if (mapRef.current) {
@@ -79,10 +129,19 @@ export default function Map({ onSensorsUpdate }) {
           <TileLayer 
             url = "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
           />
-          {sensors.map(sensor => (
-            <Marker position={sensor.geocode} icon={customIcon} >
+          {sensorData.map((sensor, index) => (
+            <Marker 
+              key={index}
+              position={sensor.location} 
+              icon={getIcon(sensor.riskColor)}
+            >
               <Popup>
-                {sensor.popup}
+                <div className="p-2">
+                  <h3 className="text-sm font-bold block">Sensor Information</h3>
+                  <p className="text-xs block text-stone-500"> Water Level: {sensor.waterLevel} cm</p>
+                  <p className="text-xs block text-stone-500">Risk Level: {sensor.riskLevel}</p>
+                  
+                </div>
               </Popup>
             </Marker>
           ))}
