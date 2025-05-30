@@ -2,6 +2,17 @@ import React from "react";
 import {FiCalendar} from "react-icons/fi"
 
 export default function TopBar(){
+    function getSeason() {
+      if (month >= 2 && month <= 4) { 
+        return "Spring";
+      } else if (month >= 5 && month <= 7) { 
+        return "Summer";
+      } else if (month >= 8 && month <= 10) { 
+        return "Autumn";
+      } else { 
+        return "Winter";
+      }
+    }
     const date = new Date();
     const weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
     let weekday = weekdays[date.getDay()];
@@ -10,22 +21,7 @@ export default function TopBar(){
     const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
     let month = months[date.getMonth()];
 
-    function getSeason(date) {
-        const month = date.getMonth();
-      
-        if (month >= 2 && month <= 4) { // March, April, May
-          return "Spring";
-        } else if (month >= 5 && month <= 7) { // June, July, August
-          return "Summer";
-        } else if (month >= 8 && month <= 10) { // September, October, November
-          return "Autumn";
-        } else { // December, January, February
-          return "Winter";
-        }
-      }
-      
-      const currentDate = new Date();
-      const brazilSeason = getSeason(currentDate);
+    const brazilSeason = getSeason(date);
       
 
     return(
