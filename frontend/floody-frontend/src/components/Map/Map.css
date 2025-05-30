@@ -8,7 +8,7 @@
     z-index: 1;
 }
 
-/* Hide zoom controls */
+
 .leaflet-control-zoom {
     display: none !important;
 }
@@ -17,7 +17,7 @@
     display: none !important;
 }
 
-/* Custom frame control styles */
+
 .custom-frame-control {
     margin-bottom: 10px !important;
 }
