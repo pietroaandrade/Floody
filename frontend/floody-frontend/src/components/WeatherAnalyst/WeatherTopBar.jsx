@@ -6,7 +6,7 @@ export default function WeatherTopBar(){
     return(
         <div className="flex justify-between items-center">
             <div>
-                <p className="text-stone-500 mb-2 text-sm">Current Time</p>
+                <p className="text-stone-500 mb-1 text-sm">Current Time</p>
                 <h3 className="text-3xl font-semibold">11:30 PM</h3>
             </div>
             <div className="bg-stone-100 rounded">
