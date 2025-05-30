@@ -5,12 +5,19 @@ import Map from "../Map/Map"
 
 export default function Dashboard (){
     const [activeSensors, setActiveSensors] = useState(0);
+    const [sensorData, setSensorData] = useState([]);
    
     return(
         <div className="bg-white rounded-lg pb-4 shadow h-[220vh] min-w-[145vh]">
             <TopBar />
-            <Map onSensorsUpdate={setActiveSensors} />
-            <Grid activeSensors={activeSensors} />
+            <Map 
+                onSensorsUpdate={setActiveSensors} 
+                onSensorDataUpdate={setSensorData}
+            />
+            <Grid 
+                activeSensors={activeSensors} 
+                sensorData={sensorData}
+            />
         </div>   
     )
 }

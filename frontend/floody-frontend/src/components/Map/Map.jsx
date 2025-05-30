@@ -12,66 +12,72 @@ import { getSensorData } from "./RiskFunctions";
 export const sensors = [
   {
     geocode:[-23.5163, -46.6235],
+    address: "Terminal Rodoviário do Tietê"
     
   },
   {
     geocode:[-23.5400, -46.5700 ],
-    
+    address: "UBS da Cidade Líder"
   },
   {
     geocode:[-23.516944, -46.660278],
-    
+    address: "Ponte da Casa Verde"
   },
   {
     geocode:[-23.5280, -46.3420],
-    
+    address: "Jardim Pantanal"
   },
   {
     geocode:[-23.6700, -46.5869],
-    
+    address: "Vale do Anhangabaú "
   },
   {
     geocode:[-23.6570, -46.5850],
-    
+    address: "Heliópolis"
   },
   {
     geocode:[-23.5530, -46.5650],
-    
+    address: "Av. Aricanduva"
   },
   {
     geocode:[-23.5330, -46.6320],
-    
+    address: "Av. 25 de Março"
   },
   {
     geocode:[-23.5050, -46.6050],
-    
+    address: "Rua da Cantareira "
   },
   {
     geocode:[-23.5323, -46.6379],
-    
+    address: "Terminal Bandeiras"
   },
+
+
   
   
   
 ];
 
-export default function Map({ onSensorsUpdate }) {
+export default function Map({ onSensorsUpdate, onSensorDataUpdate }) {
   const [isExpanded, setIsExpanded] = useState(false);
   const [sensorData, setSensorData] = useState([]);
   const mapRef = useRef(null);
   const containerRef = useRef(null);
 
   useEffect(() => {
-    
     const updateSensorData = () => {
-      setSensorData(getSensorData());
+      const newData = getSensorData();
+      setSensorData(newData);
+      if (onSensorDataUpdate) {
+        onSensorDataUpdate(newData);
+      }
     };
     
     updateSensorData(); // Initial update
     const interval = setInterval(updateSensorData, 60000);
     
     return () => clearInterval(interval);
-  }, []);
+  }, [onSensorDataUpdate]);
 
   useEffect(() => {
     if (onSensorsUpdate) {
@@ -140,7 +146,7 @@ export default function Map({ onSensorsUpdate }) {
                   <h3 className="text-sm font-bold block">Sensor Information</h3>
                   <p className="text-xs block text-stone-500"> Water Level: {sensor.waterLevel} cm</p>
                   <p className="text-xs block text-stone-500">Risk Level: {sensor.riskLevel}</p>
-                  
+                  <p className="text-xs block text-stone-500">Location: {sensor.address}</p>
                 </div>
               </Popup>
             </Marker>
