@@ -1,8 +1,12 @@
 import React from "react";
 import { IoLocationOutline } from "react-icons/io5";
 import {FiChevronDown} from "react-icons/fi"
+import { useGeolocation } from "./hooks/use-geolocation";
 
 export default function WeatherTopBar(){
+    const {coordinates, error, getLocation, isLoading} = useGeolocation();
+    console.log(coordinates);
+
     return(
         <div className="flex justify-between items-center">
             <div>
