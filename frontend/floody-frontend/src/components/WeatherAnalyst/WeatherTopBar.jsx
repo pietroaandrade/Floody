@@ -1,18 +1,49 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { IoLocationOutline } from "react-icons/io5";
 import { FiChevronDown } from "react-icons/fi";
 
 const CITIES = [
-    { name: "São Paulo", country: "Brazil", lat: -23.5505, lon: -46.6333 },
-    { name: "Rio de Janeiro", country: "Brazil", lat: -22.9068, lon: -43.1729 },
-    { name: "New York", country: "USA", lat: 40.7128, lon: -74.0060 },
-    { name: "London", country: "UK", lat: 51.5074, lon: -0.1278 },
-    { name: "Tokyo", country: "Japan", lat: 35.6762, lon: 139.6503 },
+    { name: "São Paulo", country: "Brazil", lat: -23.5505, lon: -46.6333, timezone: "America/Sao_Paulo" },
+    { name: "Rio de Janeiro", country: "Brazil", lat: -22.9068, lon: -43.1729, timezone: "America/Sao_Paulo" },
+    { name: "New York", country: "USA", lat: 40.7128, lon: -74.0060, timezone: "America/New_York" },
+    { name: "London", country: "UK", lat: 51.5074, lon: -0.1278, timezone: "Europe/London" },
+    { name: "Tokyo", country: "Japan", lat: 35.6762, lon: 139.6503, timezone: "Asia/Tokyo" },
 ];
 
 export default function WeatherTopBar() {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-    const [selectedLocation, setSelectedLocation] = useState({ name: "São Paulo", country: "Brazil" });
+    const [selectedLocation, setSelectedLocation] = useState(CITIES[0]);
+    const [currentTime, setCurrentTime] = useState("");
+
+    useEffect(() => {
+        function updateTime() {
+            const time = new Date().toLocaleTimeString('en-US', {
+                timeZone: selectedLocation.timezone,
+                hour: 'numeric',
+                minute: '2-digit',
+                hour12: true
+            });
+            setCurrentTime(time);
+        }
+
+        updateTime();
+
+       
+        const now = new Date();
+        const msToNextMinute = (60 - now.getSeconds()) * 1000 - now.getMilliseconds();
+
+        
+        const timeout = setTimeout(() => {
+            updateTime();
+            
+            const interval = setInterval(updateTime, 60000);
+            
+            return () => clearInterval(interval);
+        }, msToNextMinute);
+
+        
+        return () => clearTimeout(timeout);
+    }, [selectedLocation]);
 
     const handleLocationSelect = (city) => {
         setSelectedLocation(city);
@@ -23,7 +54,7 @@ export default function WeatherTopBar() {
         <div className="flex justify-between items-center">
             <div>
                 <p className="text-stone-500 mb-1 text-sm">Current Time</p>
-                <h3 className="text-3xl font-semibold">11:30 PM</h3>
+                <h3 className="text-3xl font-semibold">{currentTime}</h3>
             </div>
             <div className="bg-stone-100 rounded relative">
                 <button 
