@@ -1,6 +1,6 @@
 import { Command, CommandGroup, CommandItem } from 'cmdk'
 import { useEffect, useState } from 'react'
-import { FiEye, FiMap, FiCloud, FiStopCircle } from 'react-icons/fi'
+import { FiMap, FiCloud, FiLogOut } from 'react-icons/fi'
 import { useNavigate } from 'react-router-dom'
 
 export const CommandMenu = ({ open, setOpen }) => {
@@ -63,7 +63,7 @@ export const CommandMenu = ({ open, setOpen }) => {
                 <FiMap />
                 Map View
             </CommandItem>
-             <CommandItem 
+            <CommandItem 
               className='flex cursor-pointer
             transition-colors p-2 text-sm text-stone-950
             hover:bg-stone-200 rounded items-center gap-2'
@@ -73,6 +73,15 @@ export const CommandMenu = ({ open, setOpen }) => {
                 Weather
             </CommandItem>
           </CommandGroup>
+          <CommandItem 
+              className='flex cursor-pointer
+            transition-colors p-2 text-sm text-stone-50 
+            hover:bg-stone-700 bg-stone-950 rounded items-center gap-2'
+              onSelect={() => handleSelect('/')}
+            >
+                <FiLogOut />
+                Log Out
+          </CommandItem>
 
         </Command.List>
       </div>
