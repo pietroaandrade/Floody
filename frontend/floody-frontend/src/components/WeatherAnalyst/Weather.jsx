@@ -8,8 +8,9 @@ export default function Weather(){
         <div className="bg-white rounded-lg pb-4 shadow h-[220vh] w-full">
             <TopBar />
             <MainCard />
-            <div className="px-4 grid gap-3 grid-cols-12">
+            <div className="justify-between m-6 border px-4 grid gap-3 grid-cols-12">
                 <Cards />
+                
             </div>
         </div>
     )
