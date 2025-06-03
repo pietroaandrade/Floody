@@ -1,7 +1,23 @@
-import React from "react"
+import React, { useState, useEffect } from "react";
 import {FiChevronDown,FiChevronUp } from "react-icons/fi";
 
 export default function AccountToggle(){
+    const [userData, setUserData] = useState(null);
+
+    useEffect(() => {
+        const storedEmail = localStorage.getItem('loggedInUserEmail');
+        if (storedEmail) {
+            const storedUserData = localStorage.getItem(storedEmail);
+            if (storedUserData) {
+                try {
+                    setUserData(JSON.parse(storedUserData));
+                } catch (error) {
+                    console.error('Error parsing user data from localStorage:', error);
+                }
+            }
+        }
+    }, []); // Run once on component mount
+
     return(
         <div className="border-b mb-4 mt-2 pb-4 border-stone-300">
             <button className="flex p-0.5 hover:bg-stone-200 rounded 
@@ -13,8 +29,8 @@ export default function AccountToggle(){
                     shadow"
                 />
                 <div className="text-start">
-                    <span className="text-sm font-bold block">Pietro Andrade</span>
-                    <span className="text-xs block text-stone-500">pietroandrade@front.dev</span>
+                    <span className="text-sm font-bold block">{userData ? userData.username : 'Guest'}</span>
+                    <span className="text-xs block text-stone-500">{userData ? userData.email : 'guest@example.com'}</span>
                 </div>
 
                 <FiChevronDown className="absolute right-2 top-1/2

@@ -1,8 +1,24 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {FiCalendar} from "react-icons/fi"
 
 export default function TopBar(){
-    function getSeason() {
+    const [userData, setUserData] = useState(null);
+
+    useEffect(() => {
+        const storedEmail = localStorage.getItem('loggedInUserEmail');
+        if (storedEmail) {
+            const storedUserData = localStorage.getItem(storedEmail);
+            if (storedUserData) {
+                try {
+                    setUserData(JSON.parse(storedUserData));
+                } catch (error) {
+                    console.error('Error parsing user data from localStorage:', error);
+                }
+            }
+        }
+    }, []); 
+
+    function getSeason(month) { 
       if (month >= 2 && month <= 4) { 
         return "Spring";
       } else if (month >= 5 && month <= 7) { 

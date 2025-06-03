@@ -26,6 +26,7 @@ export default function Login() {
 
             if (userData.password === password) {
                 setMessage('Login successful!');
+                localStorage.setItem('loggedInUserEmail', email);
                 navigate('/dashboard');
             } else {
                 setMessage('Invalid password.');
