@@ -58,7 +58,7 @@ export const sensors = [
   
 ];
 
-export default function Map({ onSensorsUpdate, onSensorDataUpdate }) {
+export default function Map({ onSensorsUpdate, onSensorDataUpdate, isBackground }) {
   const [isExpanded, setIsExpanded] = useState(false);
   const [sensorData, setSensorData] = useState([]);
   const mapRef = useRef(null);
@@ -70,14 +70,19 @@ export default function Map({ onSensorsUpdate, onSensorDataUpdate }) {
       setSensorData(newData);
       if (onSensorDataUpdate) {
         onSensorDataUpdate(newData);
+      } else {
+        
+        getSensorData();
       }
     };
     
-    updateSensorData(); // Initial update
-    const interval = setInterval(updateSensorData, 60000);
     
-    return () => clearInterval(interval);
-  }, [onSensorDataUpdate]);
+    if (!isBackground) {
+      updateSensorData();
+      const interval = setInterval(updateSensorData, 60000);
+      return () => clearInterval(interval);
+    }
+  }, [onSensorDataUpdate, isBackground]);
 
   useEffect(() => {
     if (onSensorsUpdate) {
@@ -102,11 +107,11 @@ export default function Map({ onSensorsUpdate, onSensorDataUpdate }) {
         mapRef.current.invalidateSize();
       }, 300);
     }
-  }, [isExpanded]);
+  }, [isExpanded, isBackground]);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (isExpanded && containerRef.current && !containerRef.current.contains(event.target)) {
+      if (!isBackground && isExpanded && containerRef.current && !containerRef.current.contains(event.target)) {
         setIsExpanded(false);
       }
     };
@@ -115,27 +120,34 @@ export default function Map({ onSensorsUpdate, onSensorDataUpdate }) {
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, [isExpanded]);
+  }, [isExpanded, isBackground]);
 
   return (
-    <div className="p-8 relative">
+    <div className={`relative ${isBackground ? 'w-screen h-screen' : 'p-8'}`} style={isBackground ? { height: '100vh' } : {}}>
       <div 
         ref={containerRef}
-        style={{ height: isExpanded ? '80vh' : '50vh', transition: 'height 0.3s ease' }}
+        style={!isBackground ? { height: isExpanded ? '80vh' : '50vh', transition: 'height 0.3s ease' } : {}}
+        className={`${isBackground ? 'w-full h-full' : ''}`}
       >
         <MapContainer 
           center = {[-23.559831106, -46.655830718]} 
           zoom = {13} 
-          className="rounded shadow h-full"
+          className={`rounded shadow h-full ${isBackground ? 'w-full h-full' : ''}`}
           zoomControl={false}
-          scrollWheelZoom={true}
+          scrollWheelZoom={!isBackground}
           attributionControl={false}
           ref={mapRef}
+          doubleClickZoom={!isBackground}
+          dragging={!isBackground}
+          touchZoom={!isBackground}
+          boxZoom={!isBackground}
+          keyboard={!isBackground}
+          style={isBackground ? { height: '100%' } : {}}
         >
           <TileLayer 
             url = "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
           />
-          {sensorData.map((sensor, index) => (
+          {!isBackground && sensorData.map((sensor, index) => (
             <Marker 
               key={index}
               position={sensor.location} 
@@ -153,12 +165,14 @@ export default function Map({ onSensorsUpdate, onSensorDataUpdate }) {
           ))}
         </MapContainer>
       </div>
-      <div 
-        className="absolute bottom-10 right-10 p-2 cursor-pointer transition-transform duration-200 hover:scale-110 hover:rounded-full hover:shadow-lg" 
-        onClick={() => setIsExpanded(!isExpanded)}
-      >
-        <SlFrame className="w-6 h-6 text-stone-600" />
-      </div>
+      {!isBackground && (
+        <div 
+          className="absolute bottom-10 right-10 p-2 cursor-pointer transition-transform duration-200 hover:scale-110 hover:rounded-full hover:shadow-lg" 
+          onClick={() => setIsExpanded(!isExpanded)}
+        >
+          <SlFrame className="w-6 h-6 text-stone-600" />
+        </div>
+      )}
     </div>
   )
 }
