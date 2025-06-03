@@ -12,16 +12,16 @@ import { getSensorData } from "./RiskFunctions";
 export const sensors = [
   {
     geocode:[-23.5163, -46.6235],
-    address: "Terminal Rodoviário do Tietê"
+    address: "Rodoviária Tietê"
     
   },
   {
     geocode:[-23.5400, -46.5700 ],
-    address: "UBS da Cidade Líder"
+    address: "UBS Cidade Líder"
   },
   {
     geocode:[-23.516944, -46.660278],
-    address: "Ponte da Casa Verde"
+    address: "Ponte Casa Verde"
   },
   {
     geocode:[-23.5280, -46.3420],
@@ -29,7 +29,7 @@ export const sensors = [
   },
   {
     geocode:[-23.6700, -46.5869],
-    address: "Vale do Anhangabaú "
+    address: "Vale Anhangabaú "
   },
   {
     geocode:[-23.6570, -46.5850],
