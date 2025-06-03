@@ -1,46 +1,42 @@
-import React, { useState } from "react"; 
+import React from "react"; 
 import { FiCloud, FiMap, FiStopCircle } from "react-icons/fi"; 
-
+import { Link, useLocation } from "react-router-dom";
 
 export default function RouteSelect() {
-    const [selectedRoute, setSelectedRoute] = useState("Dashboard"); 
-
-    const handleRouteChange = (route) => {
-        setSelectedRoute(route); 
-    };
+    const location = useLocation();
 
     return (
         <div className="space-y-1">
+            
             <Route 
-                path="/"
+                to="/dashboard"
                 Icon={FiStopCircle} 
-                selected={selectedRoute === "Dashboard"} 
+                selected={location.pathname === "/"} 
                 title="Dashboard"  
-                onClick={() => handleRouteChange("Dashboard")} 
             />
+            
             <Route 
-                path=""
+                to="/dashboard"
                 Icon={FiMap} 
-                selected={selectedRoute === "MapView"} 
+                selected={location.pathname === "/dashboard"} 
                 title="MapView"  
-                onClick={() => handleRouteChange("MapView")} 
             />
+            
             <Route 
-                path=""
+                to="/weather"
                 Icon={FiCloud} 
-                selected={selectedRoute === "Weather"} 
+                selected={location.pathname === "/weather"} 
                 title="Weather"  
-                onClick={() => handleRouteChange("Weather")} 
             />
         </div>
     );
 }
 
-const Route = ({ Icon, selected, title, onClick,path }) => {
+const Route = ({ Icon, selected, title, to }) => {
     return (
         
-        <button
-            onClick={onClick} 
+        <Link
+            to={to}
             className={`flex items-center justify-start gap-2 w-full rounded px-2 py-1.5 text-sm transition-[box-shadow,_background-color,_color] ${
                     selected
                         ? "bg-white text-stone-950 shadow"
@@ -48,10 +44,10 @@ const Route = ({ Icon, selected, title, onClick,path }) => {
                 }`}
             >
             
-            {Icon && <Icon className={selected ? "text-violet-500" : ""} />}
+            {Icon && <Icon className={selected ? "text-violet-500" : "text-stone-400"} />}
             <span>{title}</span>
             
-        </button>
+        </Link>
 
     );
 };

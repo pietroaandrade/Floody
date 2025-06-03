@@ -1,11 +1,13 @@
 import { Command, CommandGroup, CommandItem } from 'cmdk'
 import { useEffect, useState } from 'react'
-import { FiPlus, FiEye } from 'react-icons/fi'
+import { FiEye, FiMap, FiCloud, FiStopCircle } from 'react-icons/fi'
+import { useNavigate } from 'react-router-dom'
 
 export const CommandMenu = ({ open, setOpen }) => {
   const [value, setValue] = useState("")
+  const navigate = useNavigate()
 
-  // Toggle the menu when ⌘K is pressed
+  
   useEffect(() => {
     const down = (e) => {
       if (e.key === 'k' && (e.metaKey || e.ctrlKey)) {
@@ -17,6 +19,12 @@ export const CommandMenu = ({ open, setOpen }) => {
     document.addEventListener('keydown', down)
     return () => document.removeEventListener('keydown', down)
   }, [setOpen])
+
+  
+  const handleSelect = (path) => {
+    navigate(path)
+    setOpen(false)
+  }
 
   return (
     <Command.Dialog 
@@ -46,11 +54,23 @@ export const CommandMenu = ({ open, setOpen }) => {
 
           <CommandGroup heading="Essentials" className='text-sm
           mb-3 text-stone-400'>
-            <CommandItem className='flex cursor-pointer
+            <CommandItem 
+              className='flex cursor-pointer
             transition-colors p-2 text-sm text-stone-950
-            hover:bg-stone-200 rounded items-center gap-2'>
-                <FiPlus />
+            hover:bg-stone-200 rounded items-center gap-2'
+              onSelect={() => handleSelect('/dashboard')}
+            >
+                <FiMap />
                 Map View
+            </CommandItem>
+             <CommandItem 
+              className='flex cursor-pointer
+            transition-colors p-2 text-sm text-stone-950
+            hover:bg-stone-200 rounded items-center gap-2'
+              onSelect={() => handleSelect('/weather')}
+            >
+                <FiCloud />
+                Weather
             </CommandItem>
           </CommandGroup>
 

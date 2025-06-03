@@ -16,7 +16,7 @@ export default function AccountToggle(){
                 }
             }
         }
-    }, []); // Run once on component mount
+    }, []); 
 
     return(
         <div className="border-b mb-4 mt-2 pb-4 border-stone-300">
