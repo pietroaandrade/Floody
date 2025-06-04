@@ -1,17 +1,17 @@
 import React from "react";
 import MainCard from "./MainCard";
 import TopBar from "../Dashboard/TopBar";
-import Cards from "./infoCards"
+import Grid from "./WeatherGrid";
 
 export default function Weather(){
     return(
         <div className="bg-white rounded-lg pb-4 shadow h-[220vh] w-full">
             <TopBar />
             <MainCard />
-            <div className="justify-between m-6 border px-4 grid gap-3 grid-cols-12">
-                <Cards />
-                
+            <div className="flex px-4 gap-3 grid grid-cols-12 items-center justify-center">
+                <Grid />
             </div>
+            
         </div>
     )
 }
