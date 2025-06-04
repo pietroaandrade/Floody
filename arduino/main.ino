@@ -1,116 +1,74 @@
-// esp32 mqtt bridge
+#include <Wire.h>
+#include <LiquidCrystal_I2C.h>
 
-#include <WiFi.h>
-#include <PubSubClient.h>
-#include <time.h>
+#define WATER_SENSOR_PIN 36  
+#define BUZZER_PIN 13
 
-#define RXD2 16 
-#define TXD2 17 
+#define GREEN_LED 25
+#define YELLOW_LED 26
+#define RED_LED 27
 
-const char* ssid = "Wokwi-GUEST";          
-const char* password = "";  
-const char* mqtt_server = "test.mosquitto.org";
-const char* sensor_id = "lamp_post_001";
+LiquidCrystal_I2C lcd(0x27, 16, 2);  
 
-WiFiClient espClient;
-PubSubClient client(espClient);
-
-String incoming = "";
+String sensorID = "Rua Moises";
 
 void setup() {
   Serial.begin(115200);
-  Serial2.begin(9600, SERIAL_8N1, RXD2, TXD2);
 
-  connectToWiFi();
-  client.setServer(mqtt_server, 1883);
+  pinMode(WATER_SENSOR_PIN, INPUT);
+  pinMode(BUZZER_PIN, OUTPUT);
 
-  configTime(0, 0, "pool.ntp.org"); 
+  pinMode(GREEN_LED, OUTPUT);
+  pinMode(YELLOW_LED, OUTPUT);
+  pinMode(RED_LED, OUTPUT);
 
-  while (!client.connected()) {
-    reconnectMQTT();
-  }
+  lcd.init();
+  lcd.backlight();
 }
 
 void loop() {
-  client.loop();
-  readAndSendSensorData();
+  int waterLevel = analogRead(WATER_SENSOR_PIN);
+  int percent = map(waterLevel, 0, 4095, 0, 100);
+
+  lcd.setCursor(0, 0);
+  lcd.print("ID: ");
+  lcd.print(sensorID);
+  lcd.print("       ");
+
+  lcd.setCursor(0, 1);
+  lcd.print("Level: ");
+  lcd.print(percent);
+  lcd.print("%    "); 
+
+  if (percent < 30) {
+    setRiskLevel("LOW");
+  } else if (percent < 70) {
+    setRiskLevel("MEDIUM");
+  } else {
+    setRiskLevel("HIGH");
+  }
+
+  delay(500);
 }
 
-void connectToWiFi() {
-  WiFi.begin(ssid, password);
-  while (WiFi.status() != WL_CONNECTED) {
+
+void setRiskLevel(String level) {
+  if (level == "LOW") {
+    digitalWrite(GREEN_LED, HIGH);
+    digitalWrite(YELLOW_LED, LOW);
+    digitalWrite(RED_LED, LOW);
+    digitalWrite(BUZZER_PIN, LOW);
+  } else if (level == "MEDIUM") {
+    digitalWrite(GREEN_LED, LOW);
+    digitalWrite(YELLOW_LED, HIGH);
+    digitalWrite(RED_LED, LOW);
+    digitalWrite(BUZZER_PIN, LOW);
+  } else if (level == "HIGH") {
+    digitalWrite(GREEN_LED, LOW);
+    digitalWrite(YELLOW_LED, LOW);
+    digitalWrite(RED_LED, HIGH);
+    tone(BUZZER_PIN, 1000);  
     delay(500);
-    Serial.print(".");
-  }
-  Serial.println("WiFi connected");
-}
-
-void reconnectMQTT() {
-  while (!client.connected()) {
-    if (client.connect("ESP32Client")) {
-      Serial.println("Connected to MQTT");
-    } else {
-      delay(1000);
-    }
+    noTone(BUZZER_PIN);
   }
 }
-
-void readAndSendSensorData() {
-  while (Serial2.available()) {
-    char c = Serial2.read();
-    if (c == '\n') {
-      int waterLevel = incoming.toInt();
-
-      time_t now;
-      time(&now);
-      struct tm* timeinfo = localtime(&now);
-      char timestamp[25];
-      strftime(timestamp, sizeof(timestamp), "%Y-%m-%dT%H:%M:%S", timeinfo);
-
-      String payload = "{";
-      payload += "\"sensor_id\":\"" + String(sensor_id) + "\",";
-      payload += "\"timestamp\":\"" + String(timestamp) + "\",";
-      payload += "\"water_level\":" + String(waterLevel);
-      payload += "}";
-
-      client.publish("flood/city/waterlevel", payload.c_str());
-
-      Serial.println("Published: " + payload);
-      incoming = "";
-    } else {
-      incoming += c;
-    }
-  }
-}
-
-
-//MQTT TOPIC: flood/city/waterlevel --> Filtrar por ID do sensor
- 
-//diagram.json
-{
-  "version": 1,
-  "author": "Pietro",
-  "editor": "wokwi",
-  "parts": [
-    {
-      "type": "board-esp32-devkit-c-v4",
-      "id": "esp",
-      "top": 0,
-      "left": 0,
-      "attrs": {}
-    }
-  ],
-  "connections": [
-    [ "esp:TX", "$serialMonitor:RX", "", [] ],
-    [ "esp:RX", "$serialMonitor:TX", "", [] ],
-    [ "uart:TX", "esp:RX2" ]
-  ],
-  "services": {
-    "mqtt": {
-      "broker": "test.mosquitto.org",
-      "port": 1883
-    }
-  },
-  "dependencies": {}
-}
-
