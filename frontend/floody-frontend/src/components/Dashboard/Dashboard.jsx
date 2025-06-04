@@ -8,7 +8,7 @@ export default function Dashboard (){
     const [sensorData, setSensorData] = useState([]);
    
     return(
-        <div className="bg-white rounded-lg pb-4 shadow h-[220vh] min-w-[145vh]">
+        <div className="bg-white rounded-lg pb-4 shadow h-[100vh] min-w-[145vh]">
             <TopBar />
             <Map 
                 onSensorsUpdate={setActiveSensors} 

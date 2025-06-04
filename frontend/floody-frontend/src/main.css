@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+@theme {
+    --color-pluvia-purple: #8e51ff;
+    
+  }
 
 html, body {
     overflow-x: hidden;

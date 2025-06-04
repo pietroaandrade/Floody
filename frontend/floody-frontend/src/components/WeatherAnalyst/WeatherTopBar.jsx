@@ -58,7 +58,7 @@ export default function WeatherTopBar() {
                 <div className="bg-stone-100 rounded relative">
                     <button 
                         onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                        className="flex items-center justify-start gap-2 w-full rounded px-2 py-1.5 text-sm transition-[box-shadow,_background-color,_color] hover:bg-stone-200 bg-transparent text-stone-500"
+                        className="flex items-center justify-start gap-2 w-full rounded px-2 py-1.5 text-sm transition-[box-shadow,_background-color,_color] hover:bg-stone-200 bg-transparent text-stone-500 hover:text-pluvia-purple"
                     >
                         <IoLocationOutline />
                         <span className="pl-2">{selectedLocation.name}, {selectedLocation.country}</span>

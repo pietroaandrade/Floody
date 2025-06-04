@@ -29,22 +29,24 @@ export default function Cards() {
 const Card = ({ day, temperature, icon, minTemp, maxTemp }) => {
     const barWidth = `${((maxTemp - minTemp) / 30) * 100}%`; 
 
+    const numWidth = `${100-((maxTemp - minTemp) / 30) * 100}%`;
+
     return (
-        <div className="m-2 flex items-center justify-between gap-2 rounded px-2 text-sm bg-transparent text-stone-500 shadow-none">
+        <div className=" flex items-center justify-between gap-2 rounded px-2 text-sm bg-transparent shadow-none">
             {icon}
             <div className="flex flex-col flex-grow">
-                <h3 className="text-stone-500 mb-1 text-sm">{day}</h3>
+                <h3 className="font-semibold text-stone-500 mb-1 text-sm">{day}</h3>
                 <div className="flex items-center">
-                    <p className="text-2xl font-semibold">{minTemp}</p>
+                    <p className="text-2xl font-semibold">{minTemp}<span className="text-sm">°C</span></p>
                     <div className="flex-grow" />
-                    <div style={{ width: barWidth }} className="text-2xl font-semibold">
-                        {maxTemp}
+                    <div style={{ width: numWidth }} className="text-2xl font-semibold">
+                        {maxTemp} <span className="text-sm">°C</span>
                     </div>
                 </div>
                 
-                <div className="relative w-full h-2 bg-gray-200 rounded">
+                <div className="relative h-2 bg-gray-200 rounded">
                     <div 
-                        className="absolute h-full bg-blue-500 rounded"
+                        className="absolute h-full bg-pluvia-purple rounded"
                         style={{ width: barWidth }} 
                     />
                 </div>
