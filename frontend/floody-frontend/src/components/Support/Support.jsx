@@ -71,13 +71,13 @@ export default function Support(){
                     </input>
 
                 </div>
-                <button className="mt-4 inline-flex items-center shadow justify-center whitespace-nowrap text-sm font-medium text-stone-100 transition-colors  bg-stone-500 h-[36px] px-[12px] rounded-[10px] gap-[6px] hover:opacity-90 w-[200px] min-h-10">
+                <button className="mt-4 inline-flex items-center shadow justify-center whitespace-nowrap text-sm font-medium text-stone-100 transition-colors  bg-stone-400 h-[36px] px-[12px] rounded-[10px] gap-[6px] hover:opacity-90 w-[200px] min-h-10">
                     Enviar
 
                 </button>
-                <div className="mt-4 bg-stone-500 rounded-[10px] shadow p-4">
+                <div className="mt-4 bg-stone-400 rounded-[10px] shadow p-4">
                     <h2 class="text-base font-semibold mb-1 text-stone-100">Entre em contato conosco</h2>
-                    <p class="text-sm text-stone-400">Você também pode nos contatar por email.</p>
+                    <p class="text-sm text-stone-500">Você também pode nos contatar por email.</p>
                     <a href="mailto:support@pluvia.com" class="text-sm text-blue-500 hover:opacity-80">support@pluvia.com</a>
                 </div>
                 
