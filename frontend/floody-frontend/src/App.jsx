@@ -4,29 +4,22 @@ import Weather from "./components/WeatherAnalyst/Weather";
 import Dashboard from "./components/Dashboard/Dashboard";
 import Login from "./components/login/signup/Login";
 import Signup from "./components/login/signup/Signup";
+import Support from "./components/Support/support";
 //Routes
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 
 function AppContent() {
   const location = useLocation();
-  const isAuthPage = location.pathname === "/" || location.pathname === "/signup";
-  const queryClient = new QueryClient({
-    defaultOptions:{
-      queries:{
-        staleTime: 5*60*1000,
-        gcTime: 10*60*1000,
-        retry: false,
-        refetchOnWindowFocus: false
-      }
-    }
-  })
+  const isAuthPage = location.pathname === "/" || location.pathname === "/signup" || location.pathname === "/support";
+  
 
   return (
-    <QueryClientProvider client={queryClient}>
+    
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/support" element={<Support />} />
 
         <Route
           path="/*"
@@ -43,7 +36,7 @@ function AppContent() {
           }
         />
       </Routes>
-    </QueryClientProvider >
+    
   );
 }
 
