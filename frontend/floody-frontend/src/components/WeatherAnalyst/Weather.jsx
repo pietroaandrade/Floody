@@ -2,6 +2,7 @@ import React from "react";
 import MainCard from "./MainCard";
 import TopBar from "../Dashboard/TopBar";
 import Grid from "./WeatherGrid";
+import PreciptationCard from "./PreciptationCard"
 
 export default function Weather(){
     return(
@@ -10,6 +11,9 @@ export default function Weather(){
             <MainCard />
             <div className="flex px-4 gap-3 grid grid-cols-12 items-center justify-center">
                 <Grid />
+                <PreciptationCard />
+                
+                
             </div>
             
         </div>
