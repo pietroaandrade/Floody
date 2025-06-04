@@ -39,11 +39,11 @@ export default function Support(){
                         {isDropdownOpen ? <FiChevronUp /> : <FiChevronDown />}
                     </button>
                     {isDropdownOpen && (
-                        <div className="absolute top-[calc(100%_+_4px)] left-0 w-full rounded-lg shadow-lg bg-white z-10">
+                        <div className="absolute top-[calc(100%_+_4px)] left-0 w-full rounded-lg shadow-lg bg-stone-100 z-10">
                             {problemTypes.map((problem) => (
                                 <div 
                                     key={problem}
-                                    className="m-1 px-3 py-2 rounded cursor-pointer hover:bg-stone-100 text-sm text-stone-700"
+                                    className="m-1 px-3 py-2 rounded cursor-pointer hover:bg-stone-200 text-sm text-stone-700"
                                     onClick={() => handleProblemSelect(problem)}
                                 >
                                     {problem}
