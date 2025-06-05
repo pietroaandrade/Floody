@@ -13,6 +13,10 @@ def weatherAnalysis(city):
 
     weather_data = getWeather(lat, lon)
 
-    prompt = WeatherPredictionPrompt(weather_data)
+    
 
-    return prompt
+    return weather_data
+
+def prompt_data(weather_data):
+    infoPrompt = WeatherPredictionPrompt(weather_data)
+    return infoPrompt

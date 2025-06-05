@@ -2,6 +2,7 @@
 from openai import OpenAI
 import os
 from dotenv import load_dotenv
+from weatherAnalysis import prompt_data
 from weatherAnalysis import weatherAnalysis
 
 load_dotenv()
@@ -16,7 +17,8 @@ city = "São Paulo"
 
 
 try:
-    prompt = weatherAnalysis(city)  
+    data = weatherAnalysis(city) 
+    prompt = prompt_data(data) 
 
     completion = client.chat.completions.create(
         model="gpt-4o-mini",
