@@ -19,21 +19,15 @@ try:
     prompt = weatherAnalysis(city)  
 
     completion = client.chat.completions.create(
-        model="gpt-3o-mini",
-         messages=[
+        model="gpt-4o-mini",
+        messages=[
             {
                 "role": "system",
-                "content": (
-                    "You are a meteorologist and AI risk analyst. Your task is to analyze real-time weather data "
-                    "from sensors and APIs, and generate a flood risk prediction for urban environments. "
-                    "You will consider rain intensity, humidity, pressure, wind, and other metrics to estimate "
-                    "whether a flood is likely in the next 30 to 120 minutes. Format your response with alerts, "
-                    "a risk level, and action recommendations."
-                )
+                "content": "You are a weather risk prediction AI assistant. You analyze JSON data and output only structured alerts about urban rain and flood risks."
             },
             {
                 "role": "user",
-                "content": prompt 
+                "content": prompt
             }
         ]
     )
@@ -44,3 +38,17 @@ try:
 
 except ValueError as Error:
     print(Error)
+
+""" Expected result (actual result from previous tries):
+{
+    "city": "São Paulo",
+    "risk_level": "LOW",
+    "alerts": [
+        "Current weather shows mist with humidity at 82% and cloud coverage at 75%.",
+        "No rain recorded in the last hour, but humidity is high."
+    ],
+    "recommendation": "Monitor conditions closely for sudden changes in humidity or pressure.",
+    "action": "Continue regular monitoring of weather updates; no immediate action needed."
+}
+
+"""

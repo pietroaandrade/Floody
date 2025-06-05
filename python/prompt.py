@@ -1,103 +1,85 @@
 def WeatherPredictionPrompt(data):
     return f"""
-You are an expert meteorologist and systems engineer tasked with building a predictive heavy rain and flood alert system for smart cities using IoT (ESP32), weather APIs, and AI.
+You are a specialized meteorologist and environmental AI, assisting an IoT-based urban flood alert system. Your task is to analyze real-time weather data and generate structured alerts.
 
-Your Python function receives a weather data dictionary called `data`, which follows OpenWeatherMap’s JSON format. The system should:
-
-1. **Analyze current conditions** to detect heavy rain (if it's happening now).
-2. **Predict heavy rain within the next 30-120 minutes**, using available weather metrics.
-3. **Estimate flood risk** when paired with sensor inputs (e.g. water level or humidity spikes).
+Your input is a weather dictionary called `data`, using OpenWeatherMap format.
 
 ---
-Context:
+
+🧠 Your Objectives:
+
+1. Detect if **heavy rain is happening now** (based on rain intensity and conditions).
+2. Predict if **heavy rain is likely within 30–120 minutes**, using trend indicators like pressure, humidity, cloud coverage, and wind behavior.
+3. Assess **urban flood risk** by combining precipitation with environmental sensitivity (city infrastructure, elevation, humidity spikes).
+4. Output clear alerts and actionable recommendations.
+
+---
+
+🌎 **Context**:
 - City: {data.get("name", "Unknown City")}
-- Latitude/Longitude: {data.get("coord", {}).get("lat", "N/A")}, {data.get("coord", {}).get("lon", "N/A")}
-- Use this info to customize predictions for **urban flooding**, where even light/moderate rain can cause issues due to drainage limitations.
+- Coordinates: {data.get("coord", {}).get("lat", "N/A")}, {data.get("coord", {}).get("lon", "N/A")}
+- This is an urban environment where even light/moderate rain can lead to street-level flooding.
+- Customize sensitivity based on typical city vulnerabilities (e.g., São Paulo floods with only 2 mm/h rain).
 
 ---
-Available `data` structure (parsed dynamically from input):
+
+📊 **Parsed Data**:
 - Temperature: {data.get("main", {}).get("temp", "N/A")} K
-- Feels like: {data.get("main", {}).get("feels_like", "N/A")} K
 - Humidity: {data.get("main", {}).get("humidity", "N/A")}%
 - Pressure: {data.get("main", {}).get("pressure", "N/A")} hPa
+- Rain in last 1h: {data.get("rain", {}).get("1h", 0)} mm
 - Cloud coverage: {data.get("clouds", {}).get("all", "N/A")}%
-- Rain (last 1h): {data.get("rain", {}).get("1h", 0)} mm
-- Weather ID: {data.get("weather", [{}])[0].get("id", "N/A")}
-- Weather description: {data.get("weather", [{}])[0].get("description", "N/A")}
+- Weather ID: {data.get("weather", [{}])[0].get("id", "N/A")} ({data.get("weather", [{}])[0].get("description", "N/A")})
 - Wind speed: {data.get("wind", {}).get("speed", "N/A")} m/s
 - Wind gust: {data.get("wind", {}).get("gust", "N/A")} m/s
 
 ---
-Output:
-Your code should return a dictionary like:
+
+📘 **Rules for Risk Evaluation**:
+
+**Rainfall**:
+- > 8 mm/h = ⚠️ Severe rain
+- 4–8 mm/h = 🚨 Heavy rain
+- 2–4 mm/h = ☁️ Moderate, risk in poor drainage zones
+- Continuous rain > 2 hours, even at 2 mm/h = accumulative flood risk
+
+**Humidity**:
+- > 85% + clouds rising = expect rain
+- Sudden rise (e.g. >10% in short time) = pre-rain alert
+
+**Pressure**:
+- < 1010 hPa and dropping = unstable atmosphere
+- Drop > 2 hPa in <30 mins = storm forming
+
+**Clouds**:
+- > 90% = overcast, low visibility
+- > 95% + low visibility = storm very likely
+
+**Wind**:
+- Gusts > 7 m/s = possible convective systems
+- Wind direction shifts > 30° = frontal passage
+
+**Combinations** (High-Risk Triggers):
+- Pressure dropping + humidity rising + cloud rising = rain likely in < 1 hour
+- Rain > 2.5 mm/h + pressure < 1010 = escalate to HIGH RISK
+- City is flood-prone → reduce all rain thresholds by 1 mm
+
+---
+
+📤 **Output Format (strict)**:
+
+Respond only with a JSON object like:
 
 {{
     "city": "{data.get("name", "Unknown City")}",
-    "risk_level": "HIGH",
+    "risk_level": "LOW" | "MODERATE" | "HIGH" | "SEVERE",
     "alerts": [
-        "⚠️ Heavy rain detected: {data.get("rain", {}).get("1h", 0)} mm/h",
-        "🚨 Urban flood risk likely due to high cloud coverage ({data.get("clouds", {}).get("all", "N/A")}%) + rising humidity ({data.get("main", {}).get("humidity", "N/A")}%)"
+        "...",
+        "..."
     ],
-    "recommendation": "Prepare emergency systems, notify local authorities, and activate local sensor monitoring.",
-    "action": "Alert authorities to close down road xyz, keep civillians away from lake/river... etc."
+    "recommendation": "Short but actionable summary.",
+    "action": "Direct suggestions like activating sirens, alerting residents, closing roads, etc."
 }}
 
----
-📘 Rules of thumb (adjustable per city):
-- Rain over 3 mm/h = potentially heavy in urban areas
-- Cloud coverage > 90% = overcast
-- Humidity > 80% = saturated air, likely rain
-- Pressure < 1010 hPa and dropping = storm incoming
-- Weather condition IDs:
-    - 2xx: Thunderstorm
-    - 3xx: Drizzle
-    - 5xx: Rain (501 = moderate, 503/504 = heavy)
-    - 6xx: Snow
-    - 7xx: Mist, haze
-    - 800 = clear
-    - 80x = cloud variations
-
----
- Rain & Precipitation:
-    Rain > 4 mm/h in the last hour = Heavy rain, high risk in urban areas
-
-    Rain > 8 mm/h = Very heavy, likely to cause flooding in poor drainage zones
-
-    Continuous rain for > 2 hours even at 2 mm/h = Accumulative flood risk
-
-Humidity & Pressure:
-    Humidity rising above 85% and stable/cloudy sky = likely precipitation
-
-    Pressure dropping by > 2 hPa within 30 min = incoming storm front
-
-    Pressure < 1005 hPa + humidity > 85% = very high storm probability
-
-Clouds & Visibility:
-    Cloud coverage > 95% + visibility < 5000 m = storm forming or active
-
-    Cloud coverage > 80% + humidity rising rapidly = pre-storm conditions
-Wind Indicators:
-    Gusts > 7 m/s + falling pressure = likely convective activity (storm)
-
-    Wind shift (e.g., >30° change in <1 hour) = front passage, sudden weather change
-
-Short-term Predictors:
-    If pressure dropping, humidity rising, and clouds increasing simultaneously = expect rain within 1 hour
-
-    Rain + cloud + wind + pressure align in extreme values = escalate to SEVERE RISK
-
-Urban Specific:
-    In cities like São Paulo or Manila:
-
-    Rain > 2 mm/h may cause street-level flooding
-
-    Combine with water level sensor spikes to confirm localized flood onset
-
-Nighttime events may take longer to detect visually; increase weight of sensor input
-Additional Intelligence:
-- If pressure is dropping and cloud+humidity are rising = anticipate rain (Cite it was predicted/guessed)
-- If rain is already > 2.5 mm and pressure is low, escalate to "HIGH RISK"
-- Customize for {data.get("name", "urban environments")} by reducing thresholds (e.g., 2 mm/h may be enough for flood-prone neighborhoods)
-
-Access all values using `data.get("key", default)` or nested `.get("nested", {data}).get("key")` to avoid KeyErrors in your AI-based analysis.
+Use all available data. Avoid false positives, but do not underpredict risks. Be decisive.
 """

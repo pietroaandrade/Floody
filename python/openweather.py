@@ -22,7 +22,7 @@ def getWeather(lat, lon, api_key=api_key):
     except ValueError as json_error:
         print(f"JSON parsing error occurred: {json_error}")
 
-# Sample call to test the getWeather function
+#Teste
 """if __name__ == "__main__":
     city = "São Paulo"
     lat = cities[city]["lat"]
