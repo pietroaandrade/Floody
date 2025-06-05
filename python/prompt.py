@@ -68,7 +68,7 @@ Your input is a weather dictionary called `data`, using OpenWeatherMap format.
 
 📤 **Output Format (strict)**:
 
-Respond only with a JSON object like:
+Respond only with a JSON object like(dont write or wrap it with anything else):
 
 {{
     "city": "{data.get("name", "Unknown City")}",
