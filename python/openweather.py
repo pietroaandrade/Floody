@@ -7,13 +7,6 @@ api_key = os.getenv("OPENWEATHER_API_KEY")
 if not api_key:
     raise ValueError("OPENWEATHER_API_KEY not found in .env file")
 
-cities = {
-    "São Paulo": {"lat": "-23.5475", "lon": "-46.63611"}
-}
-
-city = "São Paulo"
-lat = cities[city]["lat"]
-lon = cities[city]["lon"]
 
 def getWeather(lat, lon, api_key=api_key):
     url = f"https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={api_key}"
