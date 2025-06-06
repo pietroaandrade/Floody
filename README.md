@@ -2,7 +2,7 @@
 
 ###
 
-<p align="left">PluvIA é uma aplicação web moderna construída com React e Vite, projetada para fornecer capacidades de monitoramento e visualização de enchentes em tempo real.</p>
+<p align="left">PluvIA é uma aplicação web construída com React, projetada para fornecer capacidades de monitoramento e visualização de enchentes em tempo real.</p>
 
 ###
 <h1 align="left">Integrantes</h1>
