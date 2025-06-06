@@ -5,6 +5,17 @@
 <p align="left">PluvIA é uma aplicação web moderna construída com React e Vite, projetada para fornecer capacidades de monitoramento e visualização de enchentes em tempo real.</p>
 
 ###
+<h1 align="left">Integrantes</h1>
+
+###
+
+<h3 align="left">Ícaro Henrique de Souza Calixto - RM560278</h3>
+
+###
+
+<h3 align="left">Pietro Brandalise De Andrade - RM560142</h3>
+
+###
 
 <h2 align="left">Tech Stack</h2>
 
