@@ -49,14 +49,14 @@ npm install
 npm run dev
 ```
 
-## 🛠️ Scripts Disponíveis
+## Scripts Disponíveis
 
 - `npm run dev` - Inicia o servidor de desenvolvimento
 - `npm run build` - Compila o aplicativo para produção
 - `npm run preview` - Visualiza localmente a versão de produção
 - `npm run lint` - Executa ESLint para verificar a qualidade do código
 
-## 🌟 Funcionalidades
+## Funcionalidades
 
 - Visualização de mapa interativo usando Leaflet
 - Monitoramento de dados em tempo real
@@ -64,7 +64,7 @@ npm run dev
 - Visualização de dados com Recharts
 - Padrões e melhores práticas modernas do React
 
-## 🏗️ Estrutura do Projeto
+## Estrutura do Projeto
 
 ```
 PluvIA/
