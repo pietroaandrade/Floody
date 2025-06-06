@@ -7,7 +7,6 @@ import Signup from "./components/login/signup/Signup";
 import Support from "./components/Support/support";
 //Routes
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
-import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 
 function AppContent() {
   const location = useLocation();
@@ -30,6 +29,7 @@ function AppContent() {
                 <Routes>
                   <Route path="dashboard" element={<Dashboard />} />
                   <Route path="weather" element={<Weather />} />
+                  <Route path="*" element={<Error />} />
                 </Routes>
               </main>
             )
