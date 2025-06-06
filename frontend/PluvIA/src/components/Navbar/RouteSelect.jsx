@@ -1,5 +1,5 @@
 import React from "react"; 
-import { FiCloud, FiMap, FiStopCircle } from "react-icons/fi"; 
+import { FiCloud, FiMap } from "react-icons/fi"; 
 import { Link, useLocation } from "react-router-dom";
 
 export default function RouteSelect() {
@@ -7,13 +7,6 @@ export default function RouteSelect() {
 
     return (
         <div className="space-y-1">
-            
-            <Route 
-                to="/dashboard"
-                Icon={FiStopCircle} 
-                selected={location.pathname === "/"} 
-                title="Dashboard"  
-            />
             
             <Route 
                 to="/dashboard"
