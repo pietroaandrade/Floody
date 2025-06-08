@@ -60,10 +60,6 @@ npm install
 npm run dev
 ```
 
-## Scripts Disponíveis
-
-- `npm install` - Instala as dependências necessárias
-- `npm run dev` - Inicia o servidor de desenvolvimento
 
 ## Funcionalidades
 
