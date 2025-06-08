@@ -24,10 +24,7 @@
 
 ###
 
-<h2 align="left">Tech Stack</h2>
-
-###
-
+## Tecnologias
 <div align="left">
   <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" height="40" alt="javascript logo"  />
   <img width="12" />
@@ -38,10 +35,6 @@
   <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-original-wordmark.svg" height="40" alt="tailwindcss logo"  />
 </div>
 
-###
-
-## 🚀 Tecnologias
-
 - [React](https://reactjs.org/) - Uma biblioteca JavaScript para construção de interfaces
 - [Vite](https://vitejs.dev/) - Ferramenta de Frontend de Nova Geração
 - [TailwindCSS](https://tailwindcss.com/) - Framework CSS utilitário
@@ -49,7 +42,7 @@
 - [Recharts](https://recharts.org/) - Biblioteca de gráficos composável
 - [React Router](https://reactrouter.com/) - Roteamento do lado do cliente
 
-## 📦 Instalação
+## Instalação
 
 1. Clone o repositório
 ```bash
@@ -69,10 +62,8 @@ npm run dev
 
 ## Scripts Disponíveis
 
+- `npm install` - Instala as dependências necessárias
 - `npm run dev` - Inicia o servidor de desenvolvimento
-- `npm run build` - Compila o aplicativo para produção
-- `npm run preview` - Visualiza localmente a versão de produção
-- `npm run lint` - Executa ESLint para verificar a qualidade do código
 
 ## Funcionalidades
 
