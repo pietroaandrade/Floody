@@ -47,7 +47,6 @@
 1. Clone o repositório
 ```bash
 git clone [repository-url]
-cd Floody/frontend/PluvIA
 ```
 
 2. Instale as dependências
